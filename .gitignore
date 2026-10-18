@@ -1,0 +1,14 @@
+node_modules/
+.env
+.env.*
+!.env.example
+docs/
+/.codex-temp
+.vscode/
+public/uploads/
+.DS_Store
+
+# Generated reports and local tooling
+coverage/
+.cph/
+*.log

@@ -1,0 +1,39 @@
+{
+  "name": "project",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "test": "jest",
+    "test:unit": "jest tests/unit",
+    "test:integration": "cross-env NODE_ENV=test DB_NAME=railway_integration_test jest tests/integration --runInBand",
+    "test:integration:uc13-16": "cross-env NODE_ENV=test DB_NAME=railway_integration_test jest tests/integration/uc13-16 --runInBand",
+    "test:coverage": "jest --coverage",
+    "test:robustness": "jest tests/robustness --runInBand",
+    "test:robustness:long": "cross-env FUZZ_RUNS=100000 jest tests/robustness --runInBand",
+    "test:robustness:duration": "node scripts/run-weight-fuzzer.js",
+    "test:robustness:24h": "cross-env FUZZ_DURATION_MS=86400000 node scripts/run-weight-fuzzer.js"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "dotenv": "^17.4.2",
+    "ejs": "^6.0.1",
+    "express": "^4.22.2",
+    "http-errors": "~1.6.3",
+    "morgan": "^1.11.0",
+    "multer": "^2.2.0",
+    "mysql2": "^3.22.6",
+    "openai": "^7.4.0"
+  },
+  "devDependencies": {
+    "cheerio": "^1.2.0",
+    "cross-env": "^7.0.3",
+    "dotenv-cli": "^11.0.0",
+    "fast-check": "^4.9.0",
+    "jest": "^30.4.2",
+    "jest-environment-jsdom": "^30.4.1",
+    "supertest": "^7.2.2"
+  }
+}
