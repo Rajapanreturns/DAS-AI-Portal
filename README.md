@@ -2,7 +2,7 @@
 
 **An educator-facing web application for reviewing literacy assessments, identifying error patterns, and tracking student progress.**
 
-Developed as a team project in collaboration with the **Dyslexia Association of Singapore (DAS)**, the portal brings student records, assessment management, AI-assisted writing analysis, and educator review into one workflow. It is also described as the **Dyslexia Error Pattern Analyzer** in Bharath Rajeev's portfolio.
+Developed as a team project in collaboration with the **Dyslexia Association of Singapore (DAS)**, the portal brings student records, assessment management, AI-assisted writing analysis, and educator review into one workflow. It is also described as the **Dyslexia Error Pattern Analyzer** in my portfolio.
 
 AI-generated findings support educators' judgement: teachers can review and edit the analysis before approving an assessment and recording its mark.
 
@@ -16,9 +16,9 @@ AI-generated findings support educators' judgement: teachers can review and edit
 - **Educator analysis review:** view the submitted PDF alongside its summary, edit detected errors and their categories, save changes, and approve the analysis with a mark.
 - **Progress tracking and reports:** view weighted assessment progress, past band performance, and student reports with AI-generated progress insights.
 
-## Bharath Rajeev's contribution
+## My contribution
 
-Within the team project, Bharath developed the **educator-facing analysis review module**, using Node.js, Express, EJS, JavaScript, and MySQL. This included:
+Within the team project, I developed the **educator-facing analysis review module**, using Node.js, Express, EJS, JavaScript, and MySQL. This included:
 
 - The interface for reviewing, editing, saving, and approving AI-generated assessment analyses.
 - RESTful endpoints and controller validation for review and approval actions.
@@ -204,4 +204,4 @@ In production, `COOKIE_SECRET` is required and authentication cookies use the `S
 
 ## Acknowledgements
 
-Built collaboratively for the DAS project. This repository documents the team's application and Bharath Rajeev's analysis review contribution; it does not attribute the entire portal to a single developer.
+Built collaboratively for the DAS project. This repository documents the team's application and my analysis review contribution; it does not attribute the entire portal to a single developer.
