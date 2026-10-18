@@ -1,33 +1,42 @@
+
 # DAS Teachers Portal
 
-**An educator-facing web application for reviewing literacy assessments, identifying error patterns, and tracking student progress.**
+**A web application that helps teachers review literacy assessments, identify common errors, and track student progress.**
 
-Developed as a team project in collaboration with the **Dyslexia Association of Singapore (DAS)**, the portal brings student records, assessment management, AI-assisted writing analysis, and educator review into one workflow. It is also described as the **Dyslexia Error Pattern Analyzer** in my portfolio.
+Developed as a team project in collaboration with the **Dyslexia Association of Singapore (DAS)**, this portal combines student management, assessment tracking, AI-assisted writing analysis, and teacher reviews in one application. The project is also called the **Dyslexia Error Pattern Analyzer** in my portfolio.
 
-AI-generated findings support educators' judgement: teachers can review and edit the analysis before approving an assessment and recording its mark.
+The AI helps teachers identify possible errors in students' work. Teachers can then review and edit the results before approving an assessment and recording the student's mark.
 
 ## Features
 
-- **Educator accounts:** registration, login, logout, and profile editing, with bcrypt password hashing and signed authentication cookies.
-- **Student management:** create, view, edit, and delete student records, with school, centre, and educator lookups.
-- **Band and semester management:** organise cohorts, assign educators, configure assessment weights, manage enrolment and band movement, and export enrolment lists as CSV.
-- **Assessment management:** create, edit, delete, publish, and unpublish assessments, with rubrics, passing marks, and total marks.
-- **AI-assisted PDF analysis:** upload a student's written assessment and request literacy error analysis and a diagnostic summary through the OpenAI API.
-- **Educator analysis review:** view the submitted PDF alongside its summary, edit detected errors and their categories, save changes, and approve the analysis with a mark.
-- **Progress tracking and reports:** view weighted assessment progress, past band performance, and student reports with AI-generated progress insights.
+- **Educator accounts:** Registration, login, logout, and profile editing, with bcrypt password hashing and signed authentication cookies.
+- **Student management:** Create, view, edit, and delete student records, with school, centre, and educator information.
+- **Band and semester management:** Organise student groups, assign educators, set assessment weights, manage student enrolment and band changes, and export enrolment lists as CSV files.
+- **Assessment management:** Create, edit, delete, publish, and unpublish assessments, including rubrics, passing marks, and total marks.
+- **AI-assisted PDF analysis:** Upload a student's written assessment and use the OpenAI API to identify literacy errors and generate a diagnostic summary.
+- **Educator analysis review:** View the uploaded PDF alongside the AI-generated summary, edit detected errors and their categories, save changes, and approve the analysis with a mark.
+- **Progress tracking and reports:** Track student performance across assessments and bands, view student reports, and generate AI-based progress insights.
 
 ## My contribution
 
-Within the team project, I developed the **educator-facing analysis review module**, using Node.js, Express, EJS, JavaScript, and MySQL. This included:
+As part of the team, I developed the **educator-facing analysis review module** using Node.js, Express, EJS, JavaScript, and MySQL.
 
-- The interface for reviewing, editing, saving, and approving AI-generated assessment analyses.
-- RESTful endpoints and controller validation for review and approval actions.
-- Database operations for diagnostic summaries, detected errors, approval state, and assessment marks, integrated with a Railway-hosted MySQL database.
-- Jest unit tests covering the review and approval workflow.
+My work included:
 
-The implementation is centred on [`controllers/analysisController.js`](controllers/analysisController.js), [`repositories/analysisRepository.js`](repositories/analysisRepository.js), [`routes/viewAnalysisRoutes.js`](routes/viewAnalysisRoutes.js), [`views/viewanalysis.ejs`](views/viewanalysis.ejs), and [`public/javascripts/viewanalysis.js`](public/javascripts/viewanalysis.js).
+- Building the interface for teachers to review, edit, save, and approve AI-generated assessment analyses.
+- Developing RESTful API endpoints and controller validation for editing and approving analyses.
+- Implementing database operations to store diagnostic summaries, detected errors, approval status, and assessment marks, using a Railway-hosted MySQL database.
+- Writing Jest unit tests to check the review and approval process.
 
-The wider portal is a collaborative team implementation. Its original repository is [Ddottoz/esc-project-c2t1](https://github.com/Ddottoz/esc-project-c2t1).
+The main files I worked on include:
+
+- [`controllers/analysisController.js`](controllers/analysisController.js)
+- [`repositories/analysisRepository.js`](repositories/analysisRepository.js)
+- [`routes/viewAnalysisRoutes.js`](routes/viewAnalysisRoutes.js)
+- [`views/viewanalysis.ejs`](views/viewanalysis.ejs)
+- [`public/javascripts/viewanalysis.js`](public/javascripts/viewanalysis.js)
+
+This portal was developed as a team project. The original team repository is available at [Ddottoz/esc-project-c2t1](https://github.com/Ddottoz/esc-project-c2t1).
 
 ## Technology stack
 
@@ -35,23 +44,30 @@ The wider portal is a collaborative team implementation. Its original repository
 | --- | --- |
 | Backend | Node.js, Express.js |
 | Frontend | EJS templates, JavaScript, HTML, CSS |
-| Database | MySQL through `mysql2/promise`; project integration with Railway |
+| Database | MySQL through `mysql2/promise`, hosted using Railway |
 | AI integration | OpenAI JavaScript SDK, Responses API, Chat Completions API |
-| Uploads | Multer with local PDF storage |
+| File uploads | Multer with local PDF storage |
 | Authentication | bcrypt, signed HTTP-only cookies |
 | Testing | Jest, Supertest, jsdom, fast-check |
-| Packaging | Docker, Node.js 24 image |
+| Deployment | Docker, Node.js 24 image |
 
 ## How the review workflow works
 
-1. An educator manages a band and its assessments, and assigns assessments to students through the portal's publishing and enrolment workflows.
-2. A student assessment PDF is uploaded. The AI adapter requests a transcription, detected literacy errors, and a diagnostic summary.
-3. The upload service persists the submission reference, detected errors, and summary in MySQL.
-4. The educator opens the review page and checks the PDF, summary, error categories, and assessment details.
-5. Saving edits replaces the stored error records, clears approval, and returns the assessment to `Assigned` status.
-6. Approving with a valid mark sets the analysis to accepted and the student assessment to `Graded`.
+1. **Assessment setup:** An educator creates assessments for a student group and assigns them to students.
 
-Review updates and approvals use database transactions. AI output remains subject to educator review; the PDF analysis prompt explicitly asks for observable literacy behaviours rather than a medical or learning-disorder diagnosis.
+2. **PDF upload:** A student's written assessment is uploaded. The AI processes the PDF, identifies possible literacy errors, and generates a diagnostic summary.
+
+3. **Save results:** The application saves the assessment information, detected errors, and summary in MySQL.
+
+4. **Teacher review:** The educator opens the review page to check the uploaded PDF, error categories, and AI-generated summary.
+
+5. **Edit analysis:** The educator can correct the analysis and save changes. Saving an edit removes any previous approval and changes the assessment status back to `Assigned`.
+
+6. **Approve assessment:** After reviewing the results, the educator can approve the analysis and enter a valid mark. The assessment status then changes to `Graded`.
+
+The application uses database transactions to make sure review updates and approvals are saved correctly.
+
+AI-generated results are always checked by educators. The AI focuses on identifying literacy errors and does not attempt to diagnose medical conditions or learning disorders.
 
 ## Project structure
 
@@ -59,35 +75,41 @@ Review updates and approvals use database transactions. AI output remains subjec
 DAS_Teachers_Portal/
 ├── app.js                 # Express middleware and route registration
 ├── bin/www                # HTTP server entry point
-├── controllers/           # Request handling and workflow validation
-├── models/                # Database access, domain models, and PDF AI adapter
-├── repositories/          # Submission and analysis persistence
-├── services/              # Upload orchestration and AI report generation
+├── controllers/           # Handles requests and validates user actions
+├── models/                # Database models and PDF AI processing
+├── repositories/          # Saves and retrieves assessment data
+├── services/              # PDF uploads and AI report generation
 ├── middleware/            # Authentication and PDF upload handling
 ├── routes/                # Page routes and API endpoints
-├── views/                 # EJS pages and shared partials
-├── public/                # Browser scripts, styles, fonts, and images
-├── database/migrations/   # Incremental band/enrolment schema changes
-├── tests/                 # Unit, integration, and robustness tests
-├── robustness/            # Property-based validation helpers
-├── scripts/               # Duration-based fuzz-test runner
+├── views/                 # EJS pages and shared components
+├── public/                # JavaScript, CSS, fonts, and images
+├── database/migrations/   # Database updates for bands and enrolment
+├── tests/                 # Unit, integration, and other tests
+├── robustness/            # Additional testing helpers
+├── scripts/               # Automated test scripts
 ├── .env.example           # Environment variable template
-└── Dockerfile             # Production container definition
+└── Dockerfile             # Docker configuration
 ```
 
 ## Local setup
 
 ### Prerequisites
 
-- Node.js 24 and npm, matching the runtime used by the Dockerfile.
-- A MySQL instance with the project's **existing base schema and reference data**.
-- An OpenAI API key for PDF analysis and AI-generated report insights.
+Before running the project, make sure you have:
 
-**Database setup limitation:** this repository includes two incremental migrations, but no complete base-schema or seed-data script. An empty database plus these migrations is insufficient to run the portal. Obtain the compatible schema and anonymised development fixtures from the project maintainers before proceeding. Core tables referenced by the application include `educator`, `student`, `school`, `centre`, `semester`, `band`, `assessment`, `studentSemBand`, `studentAssessment`, `assessmentSubmission`, `assessment_analysis`, and `assessment_analysis_error`.
+- Node.js 24 and npm.
+- A MySQL database with the required tables and starting data.
+- An OpenAI API key for PDF analysis and AI-generated reports.
+
+**Important database note:** The repository contains two database update scripts, but it does not include the complete original database setup. You will need the original database structure and sample data from the project maintainers before running the application.
+
+The main database tables include:
+
+`educator`, `student`, `school`, `centre`, `semester`, `band`, `assessment`, `studentSemBand`, `studentAssessment`, `assessmentSubmission`, `assessment_analysis`, and `assessment_analysis_error`.
 
 ### Install and configure
 
-From the project directory:
+Open the project directory and run:
 
 ```bash
 npm ci
@@ -95,7 +117,7 @@ cp .env.example .env
 mkdir -p public/uploads
 ```
 
-Edit `.env` with your local settings:
+Next, open the `.env` file and enter your database settings and API key:
 
 ```dotenv
 DB_HOST=localhost
@@ -110,32 +132,44 @@ PORT=3000
 NODE_ENV=development
 ```
 
-Generate a cookie secret if needed:
+You can generate a secure cookie secret using:
 
 ```bash
 node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 ```
 
-Both AI modules initialise their clients when the application loads, so `OPENAI_API_KEY` must be set even before an AI endpoint is called. The PDF adapter currently specifies `gpt-5.5`, and the report service specifies `gpt-4o-mini`; these model names are hard-coded in their respective source files and require suitable API access.
+The application sets up both AI clients when it starts, so the `OPENAI_API_KEY` must be included even if you are not using the AI features immediately.
 
-### Apply the incremental migrations
+The PDF analysis module currently uses `gpt-5.5`, while the report module uses `gpt-4o-mini`. These model names are set directly in the source code and require the correct API access.
 
-After importing the compatible base schema, apply these scripts in order to the intended development database. The following commands assume a local database named `das`; adjust the host, user, and database as required.
+### Update the database
+
+After setting up the original database, run these migration scripts in order:
 
 ```bash
 mysql -h localhost -u your_database_user -p das < database/migrations/001_band_sql_source.sql
 mysql -h localhost -u your_database_user -p das < database/migrations/002_band_enrollment_movement.sql
 ```
 
-The second migration enforces one enrolment per student per semester. Resolve any existing duplicate `(studentId, semesterId)` records before applying it.
+These commands assume your database is named `das`. Update the connection details if you are using a different database.
+
+The second migration allows each student to have only one enrolment record per semester. Any duplicate records must be fixed before running it.
 
 ### Start the application
+
+Run:
 
 ```bash
 npm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000). Register an educator account at `/register`, then log in at `/login`. Application pages and APIs are protected by the signed login cookie.
+Open your browser and visit:
+
+[http://localhost:3000](http://localhost:3000)
+
+Create an educator account at `/register`, then log in through `/login`.
+
+You must be logged in to access the application's protected pages and API endpoints.
 
 ## Main routes
 
@@ -143,65 +177,88 @@ Open [http://localhost:3000](http://localhost:3000). Register an educator accoun
 | --- | --- | --- |
 | GET / POST | `/login` | Sign in |
 | GET / POST | `/register` | Create an educator account |
-| GET | `/students` | Student list |
-| GET / POST | `/api/students` | List or create students |
-| GET / PUT / DELETE | `/api/students/:studentId` | Read, update, or delete a student |
-| GET | `/bands` | Band and semester overview |
-| GET | `/bands/:bandId/enrollment` | Cohort enrolment page |
+| GET | `/students` | View student list |
+| GET / POST | `/api/students` | View or create student records |
+| GET / PUT / DELETE | `/api/students/:studentId` | View, update, or delete a student |
+| GET | `/bands` | View bands and semesters |
+| GET | `/bands/:bandId/enrollment` | View student enrolment |
 | GET | `/bands/:bandId/enrollment.csv` | Export enrolment data |
-| GET | `/assessments/:semesterBandId/view` | Assessment management page |
-| GET / POST | `/upload/:studentAssessmentId` | View or upload submission PDFs |
-| GET | `/viewanalysis/:submissionId` | Review an analysis |
-| PUT | `/viewanalysis/:submissionId` | Save review edits |
-| PATCH | `/viewanalysis/:submissionId/approve` | Approve and record a mark |
-| GET | `/reports/student/:id` | Student report |
-| GET | `/reports/student/:id/ai-insight` | Generate report insights |
+| GET | `/assessments/:semesterBandId/view` | Manage assessments |
+| GET / POST | `/upload/:studentAssessmentId` | View or upload assessment PDFs |
+| GET | `/viewanalysis/:submissionId` | Review AI-generated analysis |
+| PUT | `/viewanalysis/:submissionId` | Save changes to an analysis |
+| PATCH | `/viewanalysis/:submissionId/approve` | Approve analysis and record mark |
+| GET | `/reports/student/:id` | View student report |
+| GET | `/reports/student/:id/ai-insight` | Generate AI progress insights |
 
 ## Tests
 
-Run the unit and robustness suites independently of the integration database:
+### Unit and robustness tests
+
+Run the following commands to test the application without connecting to the integration test database:
 
 ```bash
 OPENAI_API_KEY=unit-test-placeholder-not-used npm run test:unit -- --runInBand
 npm run test:robustness
 ```
 
-The placeholder key satisfies client initialisation in unit tests; the AI calls in those tests are mocked. It is not a working API credential.
+The placeholder API key is only used for testing. These tests simulate AI responses instead of making real API requests.
 
-The repository also provides:
+### Other available tests
 
-| Command | Scope |
+| Command | Purpose |
 | --- | --- |
-| `npm test` | All Jest suites, including database integration tests |
-| `npm run test:integration` | Integration suites, using `railway_integration_test` |
-| `npm run test:integration:uc13-16` | Band, enrolment, settings, and student dashboard integration suites |
-| `npm run test:coverage` | All suites with coverage output |
-| `npm run test:robustness:long` | 100,000 property-based runs |
-| `npm run test:robustness:duration` | Duration-based weight-validation fuzzer |
-| `npm run test:robustness:24h` | 24-hour weight-validation run |
+| `npm test` | Run all Jest tests, including database integration tests |
+| `npm run test:integration` | Run integration tests using `railway_integration_test` |
+| `npm run test:integration:uc13-16` | Test band, enrolment, settings, and student dashboard features |
+| `npm run test:coverage` | Run tests and generate a coverage report |
+| `npm run test:robustness:long` | Run 100,000 property-based tests |
+| `npm run test:robustness:duration` | Run automated weight-validation tests for a set duration |
+| `npm run test:robustness:24h` | Run weight-validation tests for 24 hours |
 
-Integration tests require a separately provisioned test database with the expected schema and fixtures. They create, update, and delete records. Use dedicated test credentials and anonymised data; do not point them at the live project database. The integration npm scripts explicitly override `DB_NAME` to `railway_integration_test` while taking the connection settings from the environment.
+Integration tests require a separate test database with the correct structure and sample data.
+
+These tests can create, update, and delete records, so they should only be run using a test database with sample data.
+
+Do not use the live project database for testing.
+
+The integration test scripts automatically set the database name to `railway_integration_test` while using the connection details from your environment settings.
 
 ## Docker
 
+You can also run the application using Docker.
+
+Build the Docker image:
+
 ```bash
 docker build -t das-teachers-portal .
+```
+
+Run the container:
+
+```bash
 docker run --rm -p 8080:8080 --env-file .env \
   -e NODE_ENV=production -e PORT=8080 \
   das-teachers-portal
 ```
 
-The image runs as a non-root user and installs runtime dependencies only. Ensure the configured MySQL host is reachable from the container; `localhost` inside the container refers to the container itself.
+The Docker image runs the application as a non-root user and installs only the packages needed to run it.
 
-In production, `COOKIE_SECRET` is required and authentication cookies use the `Secure` flag. Serve the application over HTTPS for login sessions to work correctly. The container example exposes HTTP on port 8080 and needs an HTTPS reverse proxy or hosting platform in front of it for production use.
+Make sure the MySQL database can be accessed from the container. Using `localhost` inside Docker refers to the container itself, not your computer.
+
+For production use, `COOKIE_SECRET` must be configured, and authentication cookies require a secure HTTPS connection.
+
+The Docker example runs on HTTP port 8080, so you will need an HTTPS reverse proxy or a hosting platform that supports HTTPS when deploying the application.
 
 ## Current implementation notes
 
-- Uploaded PDFs are stored in `public/uploads/`. Container-local files are ephemeral unless backed by persistent storage; the repository does not implement a Cloud Storage adapter.
-- The AI adapter requests transcription, corrections, explanations, and confidence values, but the upload service currently saves the original error text, its category, and the diagnostic summary. It does not persist every field in the AI response.
-- PDF contents and report assessment data are sent to the configured OpenAI service when those features are used. Use approved, anonymised examples for demonstrations.
-- Keep `.env`, API keys, database credentials, and uploaded student assessments out of version control.
+- Uploaded PDFs are stored in `public/uploads/`. Files saved inside a Docker container may be lost when the container is deleted. The application does not currently use cloud storage for uploaded files.
+- The AI processes uploaded PDFs and generates error descriptions, corrections, explanations, and confidence values. However, the application currently saves only the original error text, error category, and diagnostic summary to the database.
+- When AI features are used, PDF contents and assessment information are sent to the configured OpenAI service. Use sample data without personal information when demonstrating the application.
+- Keep `.env` files, API keys, database passwords, and student assessments out of version control.
 
 ## Acknowledgements
 
-Built collaboratively for the DAS project. This repository documents the team's application and my analysis review contribution; it does not attribute the entire portal to a single developer.
+This project was developed as a team in collaboration with the **Dyslexia Association of Singapore (DAS)**.
+
+The repository contains the team's work, including my contribution to the educator-facing analysis review module.
